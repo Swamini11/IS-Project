@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Issues</title>
+</head>
+<body>
+    <h1>Your Reported Issues</h1>
+    {% if issues %}
+        <table border="1">
+            <tr>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Image</th>
+            </tr>
+            {% for issue in issues %}
+            <tr>
+                <td>{{ issue[1] }}</td>
+                <td>{{ issue[0] }}</td>
+                <td>{{ issue[3] }}</td>
+                <td>
+                    {% if issue[2] %}
+                        <img src="{{ url_for('static', filename='uploads/' ~ issue[2]) }}" alt="Issue Image" width="100">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No issues reported yet.</p>
+    {% endif %}
+</body>
+</html>

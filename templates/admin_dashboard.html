@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h2>All Reported Issues</h2>
+    <form method="GET" action="/admin_dashboard">
+        <label for="city">Search by City:</label>
+        <input type="text" name="city" id="city" placeholder="Enter City Name">
+        <input type="submit" value="Search">
+    </form>
+    <hr>
+
+    {% if issues %}
+        {% for issue in issues %}
+            <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+                <p><strong>User:</strong> {{ issue[1] }}</p> <!-- issue[1] is username -->
+                <p><strong>Description:</strong> {{ issue[3] }}</p> <!-- issue[3] is description -->
+                <p><strong>Location:</strong> {{ issue[2] }}</p> <!-- issue[2] is location -->
+                <p><strong>Status:</strong> {{ issue[5] }}</p> <!-- issue[5] is status -->
+                
+                {% if issue[4] %} <!-- issue[4] is image_path -->
+                    <img src="{{ url_for('static', filename='uploads/' + issue[4]) }}" width="200">
+                {% endif %}
+                
+                <form method="POST" action="/update_status/{{ issue[0] }}">
+                    <label for="status">Update Status:</label>
+                    <select name="status" id="status">
+                        <option value="In Process" {% if issue[5] == 'In Process' %}selected{% endif %}>In Process</option>
+                        <option value="Resolved" {% if issue[5] == 'Resolved' %}selected{% endif %}>Resolved</option>
+                    </select>
+                    <input type="submit" value="Update Status">
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No issues found for this city.</p>
+    {% endif %}
+</body>
+<a href="{{ url_for('logout') }}">Logout</a>
+</html>

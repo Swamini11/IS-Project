@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f0f2f5;
+        }
+        h2 {
+            color: #333;
+        }
+        .dashboard-option {
+            background-color: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        a {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome, {{ username }}!</h2>
+
+    <div class="dashboard-option">
+        <h3>📌 Report a New Issue</h3>
+        <p>Found a problem in your area? Report it with location and photo.</p>
+        <a href="/report">Report Issue</a>
+    </div>
+
+    <div class="dashboard-option">
+        <h3>📋 View Your Issues</h3>
+        <p>Check the status of issues you've reported.</p>
+        <a href="/my_issues">View Issues</a>
+    </div>
+
+    <div class="dashboard-option">
+        <h3>💬 Provide Feedback</h3>
+        <p>Tell us how we’re doing or suggest improvements.</p>
+        <a href="/feedback">Give Feedback</a>
+    </div>
+
+    <div class="dashboard-option">
+        <h3>🚪 Logout</h3>
+        <a href="/logout">Logout</a>
+    </div>
+</body>
+</html>
