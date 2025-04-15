@@ -2,15 +2,70 @@
 <html>
 <head>
     <title>Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 60px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #219150;
+        }
+
+        p {
+            text-align: center;
+            color: red;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h2>Login</h2>
-<form method="POST">
-    Username: <input type="text" name="username"><br>
-    Password: <input type="password" name="password"><br>
-    <input type="submit" value="Login">
-</form>
-<p>{{ error }}</p>
-
+    <form method="POST">
+        Username: <input type="text" name="username" required><br>
+        Password: <input type="password" name="password" required><br>
+        <input type="submit" value="Login">
+    </form>
+    <p>{{ error }}</p>
 </body>
 </html>

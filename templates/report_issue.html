@@ -2,21 +2,80 @@
 <html>
 <head>
     <title>Report an Issue</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 50px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
     <h2>Report an Issue</h2>
     <form method="POST" enctype="multipart/form-data">
-        <label>Location:</label><br>
-        <input type="text" name="location" required><br><br>
+        <label>Location:</label>
+        <input type="text" name="location" required>
     
-        <label>Description:</label><br>
-        <textarea name="description" required></textarea><br><br>
+        <label>Description:</label>
+        <textarea name="description" required></textarea>
     
-        <label>Upload Image:</label><br>
-        <input type="file" name="image" accept="image/*"><br><br>
+        <label>Upload Image:</label>
+        <input type="file" name="image" accept="image/*">
     
         <input type="submit" value="Submit">
     </form>
-    
 </body>
 </html>

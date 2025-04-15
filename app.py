@@ -175,11 +175,15 @@ def admin_dashboard():
         return redirect(url_for('admin_login'))
 
     issues = []
+    feedbacks = []  # Initialize feedbacks list
+    
+    # Handle form submission for city search
     if request.method == 'POST':
         city = request.form.get('location')
     else:
-        city = request.args.get('city')  # support GET ?city=...
+        city = request.args.get('city')  # Support GET ?city=...
 
+    # Fetch issues based on city
     if city:
         conn = sqlite3.connect('site_data.db')
         cursor = conn.cursor()
@@ -190,9 +194,18 @@ def admin_dashboard():
             WHERE location LIKE ?
         """, ('%' + city + '%',))
         issues = cursor.fetchall()
+
+        # Fetch feedback data
+        cursor.execute("""
+            SELECT feedback.id, feedback.user_id, feedback.comment
+            FROM feedback
+            JOIN users ON feedback.user_id = users.id
+        """)
+        feedbacks = cursor.fetchall()
         conn.close()
 
-    return render_template('admin_dashboard.html', issues=issues)
+    return render_template('admin_dashboard.html', issues=issues, feedbacks=feedbacks)
+
 
 
 

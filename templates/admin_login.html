@@ -2,14 +2,70 @@
 <html>
 <head>
     <title>Admin Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 50px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #d35400;
+        }
+
+        p {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h2>Admin Login</h2>
     <form method="POST">
         Admin Username:<br>
-        <input type="text" name="username"><br><br>
+        <input type="text" name="username" required><br>
         Password:<br>
-        <input type="password" name="password"><br><br>
+        <input type="password" name="password" required><br>
         <input type="submit" value="Login">
     </form>
     <p>{{ message }}</p>

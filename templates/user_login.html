@@ -2,16 +2,72 @@
 <html>
 <head>
     <title>User Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        p {
+            text-align: center;
+            color: #e74c3c;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h2>User Login</h2>
     <form method="POST">
+        <h2>User Login</h2>
         Username:<br>
-        <input type="text" name="username"><br><br>
+        <input type="text" name="username" required><br>
         Password:<br>
-        <input type="password" name="password"><br><br>
+        <input type="password" name="password" required><br>
         <input type="submit" value="Login">
+        <p>{{ message }}</p>
     </form>
-    <p>{{ message }}</p>
 </body>
 </html>

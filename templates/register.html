@@ -1,19 +1,79 @@
-<!-- templates/register.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Register</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 40px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h2>Create New Account</h2>
     <form method="POST">
         Username:<br>
-        <input type="text" name="username" required><br><br>
+        <input type="text" name="username" required><br>
         Password:<br>
-        <input type="password" name="password" required><br><br>
+        <input type="password" name="password" required><br>
         <input type="submit" value="Register">
     </form>
-    <br>
     <a href="{{ url_for('user_login') }}">Already have an account? Login here</a>
 </body>
 </html>
