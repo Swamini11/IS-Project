@@ -121,7 +121,11 @@ def admin_login():
         password = request.form['password']
         conn = sqlite3.connect('site_data.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM admin WHERE username = ? AND password = ?", (username, password))
+
+        # 🚨 VULNERABLE TO SQL INJECTION (for demo purposes only)
+        query = f"SELECT * FROM admin WHERE username = '{username}' AND password = '{password}'"
+        cursor.execute(query)
+
         admin = cursor.fetchone()
         conn.close()
         if admin:
@@ -130,6 +134,7 @@ def admin_login():
         else:
             return render_template('admin_login.html', message='Invalid credentials')
     return render_template('admin_login.html')
+
 
 @app.route('/user_dashboard')
 def user_dashboard():

@@ -130,12 +130,13 @@
         {% for feedback in feedbacks %}
             <div class="issue-card">
                 <p><strong>User ID:</strong> {{ feedback[1] }}</p>
-                <p><strong>Comment:</strong> {{ feedback[2] }}</p>
+                <p><strong>Comment:</strong> {{ feedback[2] | safe }}</p>
             </div>
         {% endfor %}
     {% else %}
         <p style="text-align: center;">No feedback available.</p>
     {% endif %}
+
 
     <a class="logout-link" href="{{ url_for('logout') }}">Logout</a>
 </body>
