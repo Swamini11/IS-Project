@@ -193,43 +193,51 @@ def my_issues():
     return render_template('user_issues.html', issues=issues, city=city)
 
 
-
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
 def admin_dashboard():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
 
     issues = []
-    feedbacks = []  # Initialize feedbacks list
-    
-    # Handle form submission for city search
+    feedbacks = []
+
+    # Get city filter (from GET or POST)
     if request.method == 'POST':
         city = request.form.get('location')
     else:
-        city = request.args.get('city')  # Support GET ?city=...
+        city = request.args.get('city')
 
-    # Fetch issues based on city
+    conn = sqlite3.connect('site_data.db')
+    cursor = conn.cursor()
+
     if city:
-        conn = sqlite3.connect('site_data.db')
-        cursor = conn.cursor()
         cursor.execute("""
             SELECT issues.id, users.username, location, description, image_path, status
             FROM issues
             JOIN users ON issues.user_id = users.id
             WHERE location LIKE ?
         """, ('%' + city + '%',))
-        issues = cursor.fetchall()
-
-        # Fetch feedback data
+    else:
         cursor.execute("""
-            SELECT feedback.id, feedback.user_id, feedback.comment
-            FROM feedback
-            JOIN users ON feedback.user_id = users.id
+            SELECT issues.id, users.username, location, description, image_path, status
+            FROM issues
+            JOIN users ON issues.user_id = users.id
         """)
-        feedbacks = cursor.fetchall()
-        conn.close()
+    
+    issues = cursor.fetchall()
 
-    return render_template('admin_dashboard.html', issues=issues, feedbacks=feedbacks)
+    # Always fetch feedbacks
+    cursor.execute("""
+        SELECT feedback.id, users.username, feedback.comment
+        FROM feedback
+        JOIN users ON feedback.user_id = users.id
+    """)
+    feedbacks = cursor.fetchall()
+
+    conn.close()
+
+    return render_template('admin_dashboard.html', issues=issues, feedbacks=feedbacks, city=city)
+
 
 
 
