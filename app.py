@@ -163,16 +163,36 @@ def report():
         return redirect(url_for('user_dashboard'))
     return render_template('report_issue.html')
 
-@app.route('/my_issues')
+@app.route('/my_issues', methods=['GET'])
 def my_issues():
     if 'user_id' not in session:
         return redirect(url_for('user_login'))
+
+    issues = []
+    city = request.args.get('city')  # Supports ?city=...
+    
     conn = sqlite3.connect('site_data.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT location, description, image_path, status FROM issues WHERE user_id = ?", (session['user_id'],))
+
+    if city:
+        cursor.execute("""
+            SELECT location, description, image_path, status
+            FROM issues
+            WHERE user_id = ? AND location LIKE ?
+        """, (session['user_id'], f'%{city}%'))
+    else:
+        cursor.execute("""
+            SELECT location, description, image_path, status
+            FROM issues
+            WHERE user_id = ?
+        """, (session['user_id'],))
+
     issues = cursor.fetchall()
     conn.close()
-    return render_template('user_issues.html', issues=issues)
+
+    return render_template('user_issues.html', issues=issues, city=city)
+
+
 
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
 def admin_dashboard():
@@ -237,8 +257,7 @@ def feedback():
         # Store the feedback in the database
         conn = sqlite3.connect('site_data.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO feedback (user_id, comment) VALUES (?, ?)", 
-                       (session['user_id'], comment))
+        cursor.execute(f"INSERT INTO feedback (user_id, comment) VALUES ({session['user_id']}, '{comment}')")
         conn.commit()
         conn.close()
         
