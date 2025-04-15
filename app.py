@@ -49,6 +49,8 @@ def init_db():
     # Insert default users and admin if they don't already exist
     cursor.execute("INSERT OR IGNORE INTO users (id, username, password) VALUES (1, 'user1', 'pass1')")
     cursor.execute("INSERT OR IGNORE INTO admin (id, username, password) VALUES (1, 'admin', 'admin123')")
+    cursor.execute("INSERT OR IGNORE INTO admin (id, username, password) VALUES (2, 'admin2', 'admin*123')")
+    #cursor.execute("DELETE from feedback")
     
     conn.commit()
     conn.close()
@@ -170,16 +172,18 @@ def my_issues():
 
     issues = []
     city = request.args.get('city')  # Supports ?city=...
-    
+
     conn = sqlite3.connect('site_data.db')
     cursor = conn.cursor()
 
     if city:
-        cursor.execute("""
+        # WARNING: Vulnerable to SQL injection
+        query = f"""
             SELECT location, description, image_path, status
             FROM issues
-            WHERE user_id = ? AND location LIKE ?
-        """, (session['user_id'], f'%{city}%'))
+            WHERE user_id = {session['user_id']} AND location LIKE '%{city}%'
+        """
+        cursor.execute(query)
     else:
         cursor.execute("""
             SELECT location, description, image_path, status
@@ -191,6 +195,7 @@ def my_issues():
     conn.close()
 
     return render_template('user_issues.html', issues=issues, city=city)
+
 
 
 @app.route('/admin_dashboard', methods=['GET', 'POST'])
@@ -257,21 +262,22 @@ def update_status(issue_id):
 @app.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     if 'user_id' not in session:
-        return redirect(url_for('user_login'))
-    
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
         comment = request.form['comment']
-        
-        # Store the feedback in the database
         conn = sqlite3.connect('site_data.db')
         cursor = conn.cursor()
-        cursor.execute(f"INSERT INTO feedback (user_id, comment) VALUES ({session['user_id']}, '{comment}')")
-        conn.commit()
+        try:
+            cursor.executescript(f"INSERT INTO feedback (user_id, comment) VALUES ({session['user_id']}, '{comment}');")
+            conn.commit()
+        except Exception as e:
+            print("SQL Injection Error:", e)
         conn.close()
-        
-        return redirect(url_for('user_dashboard'))  # Redirect to dashboard after feedback submission
+        return redirect(url_for('user_login'))
 
     return render_template('feedback.html')
+
 
 @app.route('/logout')
 def logout():
