@@ -243,7 +243,20 @@ def admin_dashboard():
 
     return render_template('admin_dashboard.html', issues=issues, feedbacks=feedbacks, city=city)
 
+@app.route('/delete_issue/<int:issue_id>', methods=['POST'])
+def delete_issue(issue_id):
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    
+    conn = sqlite3.connect('site_data.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM issues WHERE id = ?", (issue_id,))
+    conn.commit()
+    conn.close()
+    
+    return redirect(url_for('admin_dashboard'))
 
+    
 
 
 
