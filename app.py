@@ -183,7 +183,9 @@ def my_issues():
             FROM issues
             WHERE user_id = {session['user_id']} AND location LIKE '%{city}%'
         """
+        print(query)
         cursor.execute(query)
+
     else:
         cursor.execute("""
             SELECT location, description, image_path, status
@@ -277,6 +279,19 @@ def feedback():
         return redirect(url_for('user_login'))
 
     return render_template('feedback.html')
+
+@app.route('/delete_feedback/<int:feedback_id>', methods=['POST'])
+def delete_feedback(feedback_id):
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    
+    conn = sqlite3.connect('site_data.db')
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM feedback WHERE id = ?", (feedback_id,))
+    conn.commit()
+    conn.close()
+    
+    return redirect(url_for('admin_dashboard'))
 
 
 @app.route('/logout')

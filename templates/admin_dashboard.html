@@ -177,17 +177,27 @@
     <h2 class="section-title">User Feedback</h2>
 
     {% if feedbacks %}
-    <div class="container">
-        {% for feedback in feedbacks %}
-        <div class="card">
-            <p><strong>User ID:</strong> {{ feedback[1] }}</p>
-            <p><strong>Comment:</strong> {{ feedback[2] | safe }}</p>
-        </div>
+    
+<div class="container">
+    {% if feedbacks %}
+        {% for fb in feedbacks %}
+            <div class="card">
+                <p><strong>User:</strong> {{ fb[1] }}</p>
+                <p><strong>Comment:</strong> {{ fb[2] | safe}}</p>
+                <form action="/delete_feedback/{{ fb[0] }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this feedback?');">
+                    <input type="submit" value="Delete Feedback" style="background-color: #e74c3c;">
+                </form>
+            </div>
         {% endfor %}
-    </div>
+    {% else %}
+        <p class="no-data">No feedback available.</p>
+    {% endif %}
+</div>
+
     {% else %}
     <p class="no-data">No feedback available.</p>
     {% endif %}
+    
 
     <a class="logout-link" href="{{ url_for('logout') }}">Logout</a>
 
