@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Payment Gateway</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f1f1;
+            padding: 20px;
+        }
+        .payment-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .payment-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"], input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .issue-summary {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .issue-summary h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .issue-summary p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .issue-summary img {
+            max-width: 100%;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Secure Payment</h2>
+
+        <div class="issue-summary">
+            <h3>Reported Issue Summary</h3>
+            <p><strong>Location:</strong> {{ issue[0] }}</p>
+            <p><strong>Description:</strong> {{ issue[1] | safe}}</p>
+            
+            {% if issue[2] %}
+                <p><strong>Image:</strong></p>
+                <img src="{{ url_for('static', filename=image) }}" alt="Uploaded Image">
+            {% else %}
+                <p><strong>Image:</strong> No image uploaded</p>
+            {% endif %}
+        </div>
+
+        <form action="/process_payment" method="POST">
+            <label for="card_number">Card Number</label>
+            <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" required>
+
+            <label for="name">Cardholder Name</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" required>
+
+            <label for="expiry">Expiry Date</label>
+            <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+
+            <label for="cvv">CVV</label>
+            <input type="number" id="cvv" name="cvv" placeholder="123" required>
+
+            <input type="submit" value="Pay Now">
+        </form>
+    </div>
+</body>
+</html>
