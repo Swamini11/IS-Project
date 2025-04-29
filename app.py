@@ -329,6 +329,9 @@ def pay():
     conn.close()
     return render_template('payment_Page.html', issue=issue)
 
+
+
+
 @app.route('/process_payment', methods=['POST'])
 def process_payment():
     # Simulate processing (In real apps, use a secure payment gateway)
